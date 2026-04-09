@@ -248,23 +248,32 @@ Dataset mất cân bằng (85.5% Legit) → model "dự đoán tất cả là Le
 
 > Kết quả được lấy từ **chạy thực tế** trên Google Colab (GPU T4), 31 epochs.
 
-### 7.1 Kết quả cuối cùng (Epoch 30)
+### 7.1 Bảng so sánh mô hình
 
-| Module | AUC | AP | F1 (Macro) | F1-Spam | Recall (Macro) |
-|--------|-----|----|------------|---------|----------------|
-| Random baseline | 0.5000 | 0.1453 | — | — | — |
-| **Simi Module (Label)** | 0.7168 | 0.2875 | 0.1267 | — | 0.5000 |
-| **CARE-GNN (GNN)** | **0.7722** | **0.3784** | **0.1353** | **0.2551** | **0.5037** |
+| Mô hình | AUC | AP | F1 (Macro) | F1-Spam | Nhận xét |
+|---------|-----|-----|------------|---------|----------|
+| **Random baseline** | 0.5000 | 0.1453 | — | — | Ngưỡng dưới |
+| **GraphSAGE** | 0.5000 | 0.1453 | 0.4608 | — | ≈ Random! Loss = 0.693 không hội tụ |
+| **CARE-GNN (Simi)** | 0.7168 | 0.2875 | 0.1267 | — | Chỉ dùng Label Similarity |
+| **CARE-GNN (GNN)** | **0.7722** | **0.3784** | **0.1353** | **0.2551** | **Tốt nhất** |
 
-**CARE-GNN vượt random baseline:**
-- AUC: +0.272 (+54.4%)
-- AP: +0.233 (+160%)
+**CARE-GNN (GNN) vượt GraphSAGE:**
+- AUC: +0.2722 (+54.4%)
+- AP: +0.2331 (+160.4%)
 
-**CARE-GNN vượt Simi Module:**
-- AUC: +0.054 (+7.5%)
-- AP: +0.091 (+31.6%)
+### 7.2 Phân tích: Tại sao GraphSAGE thất bại?
 
-### 7.2 Tiến trình training theo epoch
+GraphSAGE có `loss = 0.6931 ≈ ln(2)` không đổi suốt 31 epochs — đây là giá trị loss của một **random classifier**. AUC = 0.50 và AP = 0.1453 (bằng đúng tỉ lệ spam trong dataset) xác nhận model không học được gì.
+
+| Vấn đề | GraphSAGE | CARE-GNN |
+|--------|-----------|----------|
+| Quan hệ đồ thị | Chỉ dùng 1 đồ thị `homo` gộp chung | Tách biệt 3 quan hệ R-U-R, R-T-R, R-S-R |
+| Neighbor nguy trang | Không lọc — lấy ngẫu nhiên | Lọc bằng Label-aware Similarity |
+| Thích ứng | Không | RL tự điều chỉnh ngưỡng |
+
+> **Kết luận:** Để phát hiện spam với spammer **nguy trang**, GNN đơn thuần như GraphSAGE bị đánh lừa bởi các neighbor giả mạo. CARE-GNN giải quyết vấn đề này nhờ cơ chế lọc neighbor thông minh.
+
+### 7.3 Tiến trình training theo epoch — CARE-GNN
 
 | Epoch | GNN AUC | GNN AP | Label AUC | Label AP |
 |-------|---------|--------|-----------|----------|
