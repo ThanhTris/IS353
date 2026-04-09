@@ -1,0 +1,19 @@
+
+*.xml
+.idea/$CACHE_FILE$
+*.iml
+.idea/dictionaries
+
+# Data files — không push lên GitHub (quá nặng, tải từ nguồn gốc)
+data/
+results/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.idea/
+backup.py
