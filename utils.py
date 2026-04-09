@@ -181,5 +181,7 @@ def test_care(test_cases, labels, model, batch_size):
     print(f"  [Label] F1={f1_label1/test_batch_num:.4f}  Acc={acc_label1/test_batch_num:.4f}"
           f"  Recall={recall_label1/test_batch_num:.4f}  AUC={auc_label1:.4f}  AP={ap_label1:.4f}")
 
-    return (auc_gnn, auc_label1, recall_gnn, recall_label1,
+    return (auc_gnn, auc_label1,
+            recall_gnn / test_batch_num,   # averaged recall (fix: không tích lũy)
+            recall_label1 / test_batch_num,
             np.array(gnn_list), np.array(label_list1))
