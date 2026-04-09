@@ -1,0 +1,56 @@
+====================================================================
+CASE STUDY: Phan tich quyet dinh cua CARE-GNN
+Dataset: YelpChi — Spam Review Detection
+====================================================================
+
+[TRUONG HOP 1 — SPAM REVIEW]
+  Node ID           : #6360
+  Xac suat Spam     : 0.9908  (99.1%)
+  Du doan           : SPAM
+  Nhan that         : SPAM  <-- du doan DUNG
+
+  So review lan can trong tung quan he:
+    R-U-R (cung user)       :    0 review
+    R-T-R (van ban tuong tu):    3 review
+    R-S-R (cung diem sao)   :   21 review
+
+  Dac trung hanh vi (feat[0..4]):
+    feat[0] = 0.055  (so san pham da danh gia)
+    feat[1] = 0.035  (ty le danh gia 1-2 sao)
+    feat[2] = 0.023  (ty le danh gia 4-5 sao)
+    feat[3] = 0.055  (entropy diem sao)
+    feat[4] = 0.055  (do lech trung binh)
+
+  Li do mo hinh ket luan la SPAM:
+    -> Review nay ket noi voi nhieu review khac cung user (R-U-R).
+       Dieu nay cho thay user co hanh vi danh gia hang loat.
+    -> Cac review lang gieng (neighbor) trong do thi phan lon
+       cung bi gan nhan SPAM — CARE-GNN lan truyen thong tin nay.
+    -> Mo hinh cam thay xac suat Spam la 99.1% (rat cao).
+
+--------------------------------------------------------------------
+
+[TRUONG HOP 2 — LEGIT REVIEW]
+  Node ID           : #39776
+  Xac suat Spam     : 0.4623  (46.2%)
+  Du doan           : LEGIT
+  Nhan that         : LEGIT  <-- du doan DUNG
+
+  So review lan can trong tung quan he:
+    R-U-R (cung user)       :    0 review
+    R-T-R (van ban tuong tu):    3 review
+    R-S-R (cung diem sao)   :   70 review
+
+  Dac trung hanh vi (feat[0..4]):
+    feat[0] = 0.017
+    feat[1] = 0.050
+    feat[2] = 0.051
+    feat[3] = 0.051
+    feat[4] = 0.051
+
+  Li do mo hinh ket luan la LEGIT:
+    -> Review co it ket noi voi review spam trong do thi.
+    -> Hanh vi danh gia tu nhien, khong co bieu hien bot.
+    -> Xac suat Spam chi la 46.2% -> phan loai LEGIT.
+
+====================================================================

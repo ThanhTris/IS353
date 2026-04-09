@@ -306,6 +306,8 @@ File: `results/class_distribution.png`
 
 Biểu đồ thể hiện sự **mất cân bằng nghiêm trọng**: 85.5% Legit (39,277 reviews) vs 14.5% Spam (6,677 reviews). Đây là lý do cần dùng class weights (5.88x) và đánh giá bằng PR-AUC thay vì accuracy.
 
+![Phân phối nhãn YelpChi](../results/class_distribution.png)
+
 ### 8.2 Precision-Recall Curve
 
 File: `results/precision_recall_curve.png`
@@ -316,6 +318,8 @@ Kết quả thực nghiệm:
 - **Random baseline** (AP = 0.1453) — bằng với tỉ lệ spam trong dataset
 
 > **Ý nghĩa:** Đường cong CARE-GNN (đỏ) luôn nằm trên Simi Module (xanh) — xác nhận lợi thế của việc lan truyền thông tin qua 3 quan hệ đồ thị. Precision đạt ~0.70 tại Recall thấp, nghĩa là khi model rất tự tin về spam thì đúng tới 70%.
+
+![Precision-Recall Curve — YelpChi Spam Detection](../results/precision_recall_curve.png)
 
 ### 8.3 t-SNE Visualization
 
@@ -328,12 +332,16 @@ Hiện tượng quan sát được:
 - **Phần còn lại:** Spam rải rác trong tập legit — đây chính là **camouflaged fraudsters** mà paper đề cập, ngụy trang khó phát hiện
 - CARE-GNN học được embedding phân tách một phần nhờ thông tin quan hệ đồ thị
 
+![t-SNE Node Embeddings — CARE-GNN YelpChi](../results/tsne_embeddings.png)
+
 ### 8.4 Training Curve
 
 File: `results/training_curve.png`
 
 - **AUC (trái):** Tăng nhanh từ 0.46 → 0.77, hội tụ sau epoch 18. CARE-GNN (đỏ) luôn trên Simi Module (xanh).
 - **Recall (phải):** Cả 2 module đạt ~0.50 macro recall — do class imbalance, model dự đoán đúng legit (recall=1.0) nhưng bỏ sót spam (recall=0.0), trung bình là 0.5
+
+![CARE-GNN Training Progress — YelpChi](../results/training_curve.png)
 
 ---
 
